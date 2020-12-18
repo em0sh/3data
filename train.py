@@ -42,21 +42,21 @@ class Train:
 			# Add one to match enumerate to actual slicing
 			f += 1
 			print('f is {} l[f] {}'.format(f, n.l[f]))
-			print('----------------- start of nested loops within parent l array---------------------')
 			for y, z in enumerate(n.l[f]):
 			# n.l[f] represents the individual element within the n.l array - sum this
 				# Step through the weight array and sum
-				print('		count of individual element within array is : {}'.format(y))
-				print('		--------------- inside of individual element of array --------------')
-				for i, j in enumerate(n.w):
-					print('			count of nested loop is is : {}'.format(i))
-					print('			weight array being used: {}'.format(n.w[i]))
-					for k, l in enumerate(n.w[i]):
-						print('				------------- within most nested loop -----------------')
-						print('				weight array to add: {}'.format(l))
-						for m, o in enumerate(n.w[i][k]):
-							n.l[f][y] += n.w[i][k][m]
-							print('					{} added to array element in l, which is now {}'.format(n.w[i][k][m],n.l[f][y]))
+				print('  start of nested loops within parent l array')
+				print('  count of individual element within array is : {}'.format(y))
+				print('  inside of individual element of array ')
+				for i, j in enumerate(n.w[f-1]):
+					print('    count of nested weight loop is is : {}'.format(i))
+					print('    weight array being used: {}'.format(n.w[i]))
+					for k, l in enumerate(n.w[f-1]):
+						print('      within most nested loop ')
+						print('      nested weight array to add: {}'.format(l))
+						for m, o in enumerate(n.w[f-1][k]):
+							n.l[f][y] += n.w[f-1][k][m]
+							print('        {} added to array element in l, which is now {}'.format(n.w[f-1][k][m],n.l[f][y]))
 
 	def backProp(n):
 		# Propogate error backwards through network
