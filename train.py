@@ -38,25 +38,26 @@ class Train:
 	def feed(n):
 		# Traverse network, summing activations and weights
 		for f, g in enumerate(n.l[1:]):
+
 		# n.l represents the layer array
 			# Add one to match enumerate to actual slicing
 			f += 1
+			print('start of feed, within top most loop')
 			print('f is {} l[f] {}'.format(f, n.l[f]))
+
 			for y, z in enumerate(n.l[f]):
 			# n.l[f] represents the individual element within the n.l array - sum this
 				# Step through the weight array and sum
 				print('  start of nested loops within parent l array')
-				print('  count of individual element within array is : {}'.format(y))
-				print('  inside of individual element of array ')
-				for i, j in enumerate(n.w[f-1]):
-					print('    count of nested weight loop is is : {}'.format(i))
-					print('    weight array being used: {}'.format(n.w[i]))
-					for k, l in enumerate(n.w[f-1]):
-						print('      within most nested loop ')
-						print('      nested weight array to add: {}'.format(l))
-						for m, o in enumerate(n.w[f-1][k]):
-							n.l[f][y] += n.w[f-1][k][m]
-							print('        {} added to array element in l, which is now {}'.format(n.w[f-1][k][m],n.l[f][y]))
+				print('  count of array is : {}'.format(y))
+
+				for k, l in enumerate(n.w[f-1]):
+					print('    inside of individual element of array')
+					print('    weight array position: n.w[{}][{}] and values: {} '.format(f-1, k, l))
+
+					for m, o in enumerate(n.w[f-1][k]):
+						n.l[f][y] += n.w[f-1][k][m]
+						print('      {} added to array element in l, which is now {}'.format(n.w[f-1][k][m],n.l[f][y]))
 
 	def backProp(n):
 		# Propogate error backwards through network

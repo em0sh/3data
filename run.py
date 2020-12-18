@@ -1,6 +1,6 @@
 import net, train
 
-n1 = net.Net([3, 2, 1], 10, .1)
+n1 = net.Net([3, 5, 1], 10, .1)
 
 n1.initialize()
 train.Train.feed(n1)
