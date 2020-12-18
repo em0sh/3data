@@ -51,13 +51,15 @@ class Train:
 				print('  start of nested loops within parent l array')
 				print('  count of array is : {}'.format(y))
 
+				'''
 				for k, l in enumerate(n.w[f-1]):
 					print('    inside of individual element of array')
 					print('    weight array position: n.w[{}][{}] and values: {} '.format(f-1, k, l))
+				'''
 
-					for m, o in enumerate(n.w[f-1][k]):
-						n.l[f][y] += n.w[f-1][k][m]
-						print('      {} added to array element in l, which is now {}'.format(n.w[f-1][k][m],n.l[f][y]))
+				for m, o in enumerate(n.w[f-1][y]):
+					n.l[f][y] += n.w[f-1][y][m]
+					print('      {} added to array element in l, which is now {}'.format(n.w[f-1][y][m],n.l[f][y]))
 
 	def backProp(n):
 		# Propogate error backwards through network
