@@ -27,7 +27,7 @@ class Net:
 	
 	def put():
 	# Put function: generate the numbers to insert into the hidden layer array
-		return random.uniform(0,2)
+		return random.uniform(1,1)
 
 	def initialize(self):
 		# Initialize the network arrays
@@ -40,13 +40,13 @@ class Net:
 		for j, i in enumerate(self.lay):
 		# Insert zeroes for first and last layer
 			if j == 0:
-				self.l.append([0. for z in range(self.lay[j])])
+				self.l.append([1. for z in range(self.lay[j])])
 				# First layer of weights should be zero since this is the input layer
 				continue
 			if j == self.laySize-1:
-				self.l.append([0. for z in range(self.lay[j])])
-				self.w.append([[1. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.l.append([1. for z in range(self.lay[j])])
+				self.w.append([[Net.put()+1. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				continue
 			# Insert initialized number into array for hidden layers
-			self.l.append([0. for z in range(self.lay[j])])
-			self.w.append([[1. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.l.append([1. for z in range(self.lay[j])])
+			self.w.append([[Net.put()+1. for x in range(self.lay[j-1])] for y in range(self.lay[j])])

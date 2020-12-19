@@ -46,7 +46,7 @@ def feed(n):
 
 			for m, o in enumerate(n.w[f-1][y]):
 				# Step through the weight array and sum
-				n.l[f][y] += n.w[f-1][y][m]
+				n.l[f][y] += n.w[f-1][y][m]*n.l[f-1][y]
 
 def backProp(n):
 	# Propogate error backwards through network
