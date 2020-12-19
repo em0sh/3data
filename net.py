@@ -40,13 +40,13 @@ class Net:
 		for j, i in enumerate(self.lay):
 		# Insert zeroes for first and last layer
 			if j == 0:
-				self.l.append([1. for z in range(self.lay[j])])
-				# First layer of weights should be zero since this is the input layer
+				# First layer in network: should represent normalized input from image
+				self.l.append([Net.put() for z in range(self.lay[j])])
 				continue
 			if j == self.laySize-1:
-				self.l.append([1. for z in range(self.lay[j])])
-				self.w.append([[Net.put()+1. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.l.append([0. for z in range(self.lay[j])])
+				self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				continue
 			# Insert initialized number into array for hidden layers
-			self.l.append([1. for z in range(self.lay[j])])
-			self.w.append([[Net.put()+1. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.l.append([0. for z in range(self.lay[j])])
+			self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
