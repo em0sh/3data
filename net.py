@@ -27,7 +27,7 @@ class Net:
 	
 	def put():
 	# Put function: generate the numbers to insert into the hidden layer array
-		return random.uniform(1,1)
+		return random.uniform(1, 1)
 
 	def initialize(self):
 		# Initialize the network arrays
@@ -41,7 +41,7 @@ class Net:
 		# Insert zeroes for first and last layer
 			if j == 0:
 				# First layer in network: should represent normalized input from image
-				self.l.append([Net.put() for z in range(self.lay[j])])
+				self.l.append([0. for z in range(self.lay[j])])
 				continue
 			if j == self.laySize-1:
 				self.l.append([0. for z in range(self.lay[j])])
