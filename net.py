@@ -4,9 +4,6 @@
 
 # TODO:
 	# Instantiate class with properties
-		# Layers, Mini Batch Size, Input, Output
-	# Count layers in network
-	# Forward propogation (Initialization)
 
 # Standard Libraries
 import random
@@ -20,14 +17,14 @@ class Net:
 	def __init__(self, layers, batchSize, eth):
 		self.lay = layers
 		self.batchSize = batchSize
-		self.eth = eth
+		self.lRate = eth
 
 		# Calculated Attributes
 		self.laySize = len(self.lay)
 	
 	def put():
 	# Put function: generate the numbers to insert into the hidden layer array
-		return random.uniform(1, 1)
+		return random.uniform(0, 1)
 
 	def initialize(self):
 		# Initialize the network arrays
@@ -36,17 +33,22 @@ class Net:
 		self.l = []
 		# Weights
 		self.w = []
+		# Biases
+		self.b = []
 
 		for j, i in enumerate(self.lay):
-		# Insert zeroes for first and last layer
+		# Insert zeroes for first and last layer, initialize hidden layers
 			if j == 0:
 				# First layer in network: should represent normalized input from image
 				self.l.append([0. for z in range(self.lay[j])])
 				continue
+
 			if j == self.laySize-1:
 				self.l.append([0. for z in range(self.lay[j])])
 				self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.b.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				continue
 			# Insert initialized number into array for hidden layers
 			self.l.append([0. for z in range(self.lay[j])])
 			self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.b.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])

@@ -12,8 +12,14 @@ labelfile = 'data/trainlabel'
 
 # Reading
 ndarrc = idx2numpy.convert_from_file(imagefile)
+
+# Length of array
 ndarrl = len(ndarrc)
+
+# initialize layer array and label array
 nd = []
+label = np.zeros(10)
+
 # TODO: Comment this code
 for i in ndarrc:
 	nd.append(np.concatenate(i, axis=None))
@@ -23,7 +29,11 @@ with open(labelfile, 'rb') as file:
 	magic, size = struct.unpack(">II", file.read(8))
 	if magic != 2049:
 		raise ValueError('2049 was magic, not {}'.format(magic))
-	l = array("B", file.read())		
+	l = array("B", file.read())
+	
+def genLabel(t):
+	label[l[t]] = 1.
+	return(label)
 
 ################ Plotting
 def plot(f):
@@ -56,26 +66,3 @@ def grayscale(f):
 	return(f)
 
 
-
-
-'''
-def label():		
-	l = []
-	with open(labelfile, 'rb') as file:
-		magic, size = struct.unpack(">II", file.read(8))
-		if magic != 2049:
-			raise ValueError('Magic number mismatch, expected 2049, got {}'.format(magic))
-		l = array("B", file.read())		
-	return l
-'''
-	
-'''
-def test(lay):
-	a = gsImages[lay]
-	return(a)
-'''
-'''
-# Load data
-with open('data/trainfile', 'rb') as f:
-	d = pickle.load(f)
-'''
