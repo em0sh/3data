@@ -17,7 +17,7 @@ class Net:
 	def __init__(self, layers, batchSize, eth):
 		self.lay = layers
 		self.batchSize = batchSize
-		self.lRate = eth
+		self.eth = eth
 
 		# Calculated Attributes
 		self.laySize = len(self.lay)
@@ -46,9 +46,9 @@ class Net:
 			if j == self.laySize-1:
 				self.l.append([0. for z in range(self.lay[j])])
 				self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
-				self.b.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.b.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				continue
 			# Insert initialized number into array for hidden layers
 			self.l.append([0. for z in range(self.lay[j])])
 			self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
-			self.b.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.b.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
