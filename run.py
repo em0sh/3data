@@ -2,6 +2,7 @@ import net, train, load
 
 # Test modules
 from random import randint
+
 # Initial test 
 # Instantiation of neural net class
 	# net.Net([network array], batch size, learning rage)
@@ -14,11 +15,14 @@ n1.initialize()
 t = 0
 
 # TODO: The final layer should change based on the first layer initializing to the image but it is not
+
+
 # Set first and feed forward
 n1.l[0] = load.nd[t]*(1/255)
 train.feed(n1)
 train.backProp(n1, load.genLabel(t))
-print(n1.l[-1])
+print([ '%.2f' % el for el in n1.ll[-1]])
+
 
 ''' print label and image
 load.plot(list(n1.l[0]))
@@ -26,9 +30,8 @@ print(load.genLabel(t))
 '''
 
 
-
-# Second test
 '''
+# Second test
 n = []
 
 for i in range(15):
