@@ -34,8 +34,10 @@ class Net:
 		self.ll = []
 		# Weights
 		self.w = []
+		self.ww = []
 		# Biases
 		self.b = []
+		self.bb = []
 
 
 		for j, i in enumerate(self.lay):
@@ -50,10 +52,14 @@ class Net:
 				self.l.append([0. for z in range(self.lay[j])])
 				self.ll.append([0. for z in range(self.lay[j])])
 				self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.ww.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				self.b.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.bb.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				continue
 			# Insert initialized number into array for hidden layers
 			self.l.append([0. for z in range(self.lay[j])])
 			self.ll.append([0. for z in range(self.lay[j])])
 			self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.ww.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 			self.b.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.bb.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])

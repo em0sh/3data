@@ -1,0 +1,4 @@
+l[l] - activations current layer		effective: l
+w[l] - weights of NEXT layer			effective: l + 1
+b[l] - biases of NEXT layer			effective: l + 1
+ll[l] - updated weights of current layer	effective: l

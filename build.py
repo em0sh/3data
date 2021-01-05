@@ -36,7 +36,7 @@ class Figure():
 
     def grayscale(f):
 
-        for i in range(len(f))
+        for i in range(len(f)):
             for j in range(len(f[i])):
                 if f[i][j] < 61:
                     f[i][j] = 0

@@ -11,6 +11,9 @@ n1 = net.Net([28*28, 15, 10], 10, .1)
 # Generate network
 	# TODO: Build this into the class initialization function instead
 n1.initialize()
+<<<<<<< HEAD
+n1.grad()
+=======
 
 t = 0
 
@@ -18,10 +21,9 @@ t = 0
 
 
 # Set first and feed forward
-n1.l[0] = load.nd[t]
+n1.l[0] = load.nd[t]*(1/255)
 train.feed(n1)
 train.backProp(n1, load.genLabel(t))
-
 print([ '%.2f' % el for el in n1.ll[-1]])
 
 
@@ -48,3 +50,4 @@ for i in n:
 
 	print(i.l[-1])
 '''
+>>>>>>> 5bec607604511dc1a82d33d0429dcf70230834be

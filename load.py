@@ -7,6 +7,7 @@ from array import array
 import idx2numpy
 
 imgsize = 28
+bSize = 255
 imagefile = 'data/trainimage'
 labelfile = 'data/trainlabel'
 
@@ -22,7 +23,7 @@ label = np.zeros(10)
 
 # TODO: Comment this code
 for i in ndarrc:
-	nd.append(np.concatenate(i, axis=None))
+	nd.append(np.concatenate(i*(1/bSize), axis=None))
 
 # Retrieve label data
 with open(labelfile, 'rb') as file:
