@@ -22,7 +22,7 @@ n1.l[0] = load.nd[t]
 train.feed(n1)
 train.backProp(n1, load.genLabel(t))
 
-print([ '%.2f' % el for el in n1.ll[-1]])
+print([ '%.4f' % el for el in n1.ll[-1]])
 
 
 ''' print label and image

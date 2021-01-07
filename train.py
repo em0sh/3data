@@ -82,4 +82,8 @@ def backProp(n, a):
 			for m, o in enumerate(n.w[f][y]):
 				# TODO: First iteration of this potentially working - having issue with zeroing out
 				n.ll[f][y] = n.w[f][y][m]*n.ll[f+1][y]*sigPrime(n.l[f][y])
-				print(n.ll[f][y])
+				print('next layer weight: {}'.format(n.w[f][y][m]))
+				print('next layer activation: {}'.format(n.ll[f+1][y]))
+				print('sigprime of z is: {}'.format(sigPrime(n.l[f][y])))
+				print('result is: {}'.format(n.ll[f][y]))
+				input('')
