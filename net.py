@@ -26,6 +26,7 @@ class Net:
 	# Put function: generate the numbers to insert into the hidden layer array
 		return random.uniform(-1., 1.)
 
+
 	def initialize(self):
 		# Initialize the network arrays
 		# Create the network layers
@@ -49,17 +50,18 @@ class Net:
 				continue
 
 			if j == self.laySize-1:
-				self.l.append([0. for z in range(self.lay[j])])
-				self.ll.append([0. for z in range(self.lay[j])])
+				self.l.append([2. for z in range(self.lay[j])])
+				self.ll.append([2. for z in range(self.lay[j])])
 				self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
-				self.ww.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
-				self.b.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
-				self.bb.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.ww.append([[2. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.b.append([[2. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.bb.append([[2. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				continue
+
 			# Insert initialized number into array for hidden layers
-			self.l.append([0. for z in range(self.lay[j])])
-			self.ll.append([0. for z in range(self.lay[j])])
+			self.l.append([1. for z in range(self.lay[j])])
+			self.ll.append([1. for z in range(self.lay[j])])
 			self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
-			self.ww.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
-			self.b.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
-			self.bb.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.ww.append([[1. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.b.append([[1. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.bb.append([[1. for x in range(self.lay[j-1])] for y in range(self.lay[j])])

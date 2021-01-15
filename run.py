@@ -6,7 +6,7 @@ from random import randint
 # Initial test 
 # Instantiation of neural net class
 	# net.Net([network array], batch size, learning rage)
-n1 = net.Net([28*28, 15, 10], 10, .1)
+n1 = net.Net([28*28, 30, 10], 10, .1)
 
 # Generate network
 	# TODO: Build this into the class initialization function instead
@@ -22,8 +22,27 @@ n1.l[0] = load.nd[t]
 train.feed(n1)
 train.backProp(n1, load.genLabel(t))
 
-print([ '%.4f' % el for el in n1.ll[-1]])
+print('\nll')
+print(n1.ll[0])
+print(len(n1.ll[0]))
 
+print('\nww')
+print(n1.ww[1])
+print(len(n1.ww[1]))
+
+print('\nbb')
+print(n1.bb[1])
+print(len(n1.bb[1]))
+
+input('')
+
+# Print output layer of network
+print("output layer of net")
+print([ '%.1f' % el for el in n1.ll[-1]])
+
+# Sum the outputs to diagnose changes in network
+print('sum of output layer')
+print('%.2f' % sum([i for i in n1.ll[-1]]))
 
 ''' print label and image
 load.plot(list(n1.l[0]))
@@ -48,3 +67,5 @@ for i in n:
 
 	print(i.l[-1])
 '''
+
+

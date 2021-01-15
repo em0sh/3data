@@ -78,12 +78,27 @@ def backProp(n, a):
 	for f, g in reversed(list(enumerate(n.l[1:]))):
 		# Statement above this loop handles last layer, the 1: indicing loops after this layer
 		# TODO: Continue identifying indices for integration of BP algorithm
-		for y, z in enumerate(n.w[f]):
+
+		# Subtract one to match enumerate in actual slicing
+		#	If this works, I quit programming
+		f -= 1 
+
+		for y, z in enumerate(n.l[f]):
 			for m, o in enumerate(n.w[f][y]):
-				# TODO: First iteration of this potentially working - having issue with zeroing out
+				# TODO: Not summing correct elements - changing second layer to 5 breaks this
 				n.ll[f][y] = n.w[f][y][m]*n.ll[f+1][y]*sigPrime(n.l[f][y])
-				print('next layer weight: {}'.format(n.w[f][y][m]))
-				print('next layer activation: {}'.format(n.ll[f+1][y]))
-				print('sigprime of z is: {}'.format(sigPrime(n.l[f][y])))
-				print('result is: {}'.format(n.ll[f][y]))
-				input('')
+
+
+				# Print indexing of this loop to understand where the error lies
+				#print('f = {}, y = {}, m = {}'.format(f, y, m))
+				#print('n.w[y][m] = {}'.format(n.w[f][y]))
+
+
+				# Testing to see if zeroing has an effect
+				#n.ll[f][y] = 0
+
+				#print('next layer weight: {}'.format(n.w[f][y][m]))
+				#print('next layer activation: {}'.format(n.ll[f+1][y]))
+				#print('sigprime of z is: {}'.format(sigPrime(n.l[f][y])))
+				#print('result is: {}'.format(n.ll[f][y]))
+				#input('')
