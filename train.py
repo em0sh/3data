@@ -1,7 +1,6 @@
 ###########################
 # Model Training
 ##########################
-import copy
 import numpy as np
 
 # TODO:
@@ -51,7 +50,6 @@ def QCF(n, nll, a):
 		nll[ind] = .5 * (n[ind] - a[ind])**2
 	return(nll)
 
-
 def feed(n):
 	# Traverse network, summing activations and weights
 	for f, g in enumerate(n.l[1:]):
@@ -74,31 +72,29 @@ def backProp(n, a):
 	
 	# Invoke QCF and set error for last layer
 	n.ll[-1] = QCF(n.l[-1], n.ll[-1], a)
-	
-	for f, g in reversed(list(enumerate(n.l[1:]))):
+
+
+
+	for f, g in reversed(list(enumerate(n.w))):
 		# Statement above this loop handles last layer, the 1: indicing loops after this layer
-		# TODO: Continue identifying indices for integration of BP algorithm
+		# DIAG:
+		f += 1
+		print('adjusted f: {}'.format(f))
+		n.track.append(f)
 
-		# Subtract one to match enumerate in actual slicing
-		#	If this works, I quit programming
-		f -= 1 
+		for y, z in enumerate(n.w[f-1]):
 
-		for y, z in enumerate(n.l[f]):
-			for m, o in enumerate(n.w[f][y]):
-				# TODO: Not summing correct elements - changing second layer to 5 breaks this
-				n.ll[f][y] = n.w[f][y][m]*n.ll[f+1][y]*sigPrime(n.l[f][y])
+			for m, o in enumerate(n.w[f-1][y]):
+				# Progress through ww and perform backprop calcs on m element of [f][y] array
+				n.ww[f-1][y][m] = n.w[f-1][y][m]*n.ll[f][y]*sigPrime(n.l[f][y])
 
-
-				# Print indexing of this loop to understand where the error lies
-				#print('f = {}, y = {}, m = {}'.format(f, y, m))
-				#print('n.w[y][m] = {}'.format(n.w[f][y]))
-
-
-				# Testing to see if zeroing has an effect
-				#n.ll[f][y] = 0
-
-				#print('next layer weight: {}'.format(n.w[f][y][m]))
-				#print('next layer activation: {}'.format(n.ll[f+1][y]))
-				#print('sigprime of z is: {}'.format(sigPrime(n.l[f][y])))
-				#print('result is: {}'.format(n.ll[f][y]))
-				#input('')
+				'''
+				# DIAG: Looking at the valuevs of the equations as as the loop passes through
+				input('')
+				print('------------------')
+				print('n.ww[f][y] = n.w[f][y][m]*n.ll[f+1][y]*sigPrime(n.l[f][y])')
+				print('n.ww[{}][{}] = n.w[{}][{}][{}]*n.ll[{}][{}]*sigPrime(n.l[{}][{}])'.format(f, y, f, y, m, f+1, y, f, y))
+				print('{} = {}*{}*{})'.format(n.ww[f][y], n.w[f][y][m], n.ll[f+1][y], sigPrime(n.l[f][y])))
+				print('biases: ')
+				print('{} = {}*{}*{})'.format(n.bb[f][y], n.b[f][y][m], n.ll[f+1][y], sigPrime(n.l[f][y])))
+				'''
