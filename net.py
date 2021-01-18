@@ -23,6 +23,9 @@ class Net:
 		self.laySize = len(self.lay)
 		# DIAG: 
 		self.track = []
+
+		# Initialize
+		self.initialize()
 	
 	def put():
 	# Put function: generate the numbers to insert into the hidden layer array

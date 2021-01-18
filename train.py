@@ -69,6 +69,7 @@ def feed(n):
 
 def backProp(n, a):
 	# Propogate error backwards through network
+	# n.ww, n.bb contains the error, or delta for computation in stochastic gradient descent
 	
 	# Invoke QCF and set error for last layer
 	n.ll[-1] = QCF(n.l[-1], n.ll[-1], a)
@@ -88,13 +89,89 @@ def backProp(n, a):
 				# Progress through ww and perform backprop calcs on m element of [f][y] array
 				n.ww[f-1][y][m] = n.w[f-1][y][m]*n.ll[f][y]*sigPrime(n.l[f][y])
 
-				'''
-				# DIAG: Looking at the valuevs of the equations as as the loop passes through
-				input('')
-				print('------------------')
-				print('n.ww[f][y] = n.w[f][y][m]*n.ll[f+1][y]*sigPrime(n.l[f][y])')
-				print('n.ww[{}][{}] = n.w[{}][{}][{}]*n.ll[{}][{}]*sigPrime(n.l[{}][{}])'.format(f, y, f, y, m, f+1, y, f, y))
-				print('{} = {}*{}*{})'.format(n.ww[f][y], n.w[f][y][m], n.ll[f+1][y], sigPrime(n.l[f][y])))
-				print('biases: ')
-				print('{} = {}*{}*{})'.format(n.bb[f][y], n.b[f][y][m], n.ll[f+1][y], sigPrime(n.l[f][y])))
-				'''
+
+def descent(n):
+	pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	pass

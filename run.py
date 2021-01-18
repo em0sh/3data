@@ -1,29 +1,52 @@
+# TODO:
+	# Implement Gradient Descent
+		# Get total number of samples, n
+		#? Average over batches?
+
+
+
 import net, train, load
 
 # Test modules
 from random import randint
 
-# Initial test 
-# Instantiation of neural net class
-	# net.Net([network array], batch size, learning rage)
-n1 = net.Net([28*28, 25, 10], 10, .1)
+# Network Parameters
+	# Array of layers & activations
+netShape = [28*28, 30, 10]
+	# Batch size for descent
+batch = 10
+	# Learning rate
+eta = .1
 
-# Generate network
-	# TODO: Build this into the class initialization function instead
-n1.initialize()
-
+# DIAG:
+	# t is the example to choose
 t = 0
 
-# TODO: The final layer should change based on the first layer initializing to the image but it is not
-
+# Instantiation of neural net class
+n1 = net.Net(netShape, batch, eta)
 
 # Set first and feed forward
 n1.l[0] = load.nd[t]
 train.feed(n1)
+# Pass network and answer to backpropogation to populate delta matrices
 train.backProp(n1, load.genLabel(t))
 
 
 
+
+
+
+
+
+
+
+
+
+
+# DIAG:
+#---------------------------------------------------------------------------------------------------
+# show current layers for diagnostics
+'''
 z = 2
 zz = z - 1
 print('summary of layer l: {}'.format(z))
@@ -48,9 +71,9 @@ print('sum of output layer')
 print('%.2f' % sum([i for i in n1.ll[-1]]))
 
 print('f progressed in order: {}'.format(n1.track))
-
-
-''' print label and image
+'''
+# Print label and image
+'''
 load.plot(list(n1.l[0]))
 print(load.genLabel(t))
 '''
