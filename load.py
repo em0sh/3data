@@ -7,21 +7,23 @@ from array import array
 import idx2numpy
 
 imgsize = 28
+# Maximum value of byte - used for normalization
 bSize = 255
 imagefile = 'data/trainimage'
 labelfile = 'data/trainlabel'
 
-# Reading
-ndarrc = idx2numpy.convert_from_file(imagefile)
-
+# TODO: Don't think this is necessary anymore - delete if not
+'''
 # Length of array
 ndarrl = len(ndarrc)
+'''
 
 # initialize layer array and label array
 nd = []
-label = np.zeros(10)
 
-# TODO: Comment this code
+
+# ndarrc is the array of the entire training set - put into nd and normalize
+ndarrc = idx2numpy.convert_from_file(imagefile)
 for i in ndarrc:
 	nd.append(np.concatenate(i*(1/bSize), axis=None))
 
@@ -32,9 +34,13 @@ with open(labelfile, 'rb') as file:
 		raise ValueError('2049 was magic, not {}'.format(magic))
 	l = array("B", file.read())
 	
+	
 def genLabel(t):
+	label = np.zeros(10)
 	label[l[t]] = 1.
 	return(label)
+
+
 
 ################ Plotting
 def plot(f):
@@ -45,9 +51,9 @@ def plot(f):
 	k = 0
 	for i in range(imgsize):
 		for j in range(imgsize):
-			if f[j + k*imgsize] < 61:
+			if f[j + k*imgsize] < 61/bSize:
 				s += ' '
-			elif f[j + k*imgsize] > 60 and f[i] < 190:
+			elif f[j + k*imgsize] > 60/bSize and f[i] < 190/bSize:
 				s += '.'
 			else:
 				s += 'x'
@@ -58,12 +64,12 @@ def plot(f):
 def grayscale(f):
 	for i in range(len(f)):
 		for j in range(len(f[i])):
-			if f[i][j] < 61:
+			if f[i][j] < 61/bSize:
 				f[i][j] = 0
-			elif f[i][j] > 60 and f[i][j] < 190:
-				f[i][j] = 128
+			elif f[i][j] > 60/bSize and f[i][j] < 19/bSize0:
+				f[i][j] = 128/bSize
 			else:
-				f[i][j] = 255
+				f[i][j] = 255/bSize
 	return(f)
 
 

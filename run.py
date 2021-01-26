@@ -2,34 +2,72 @@
 	# Implement Gradient Descent
 		# Get total number of samples, n
 		#? Average over batches?
-
-
-
 import net, train, load
 
 # Test modules
-from random import randint
+from random import shuffle
+from pympler import asizeof
 
 # Network Parameters
-	# Array of layers & activations
+# Array of layers & activations
 netShape = [28*28, 30, 10]
-	# Batch size for descent
-batch = 10
-	# Learning rate
+# Batch size for descent
+bSize = 5000
+# Learning rate
 eta = .1
 
-# DIAG:
-	# t is the example to choose
-t = 0
 
-# Instantiation of neural net class
-n1 = net.Net(netShape, batch, eta)
+# Program Parameters
+# List containing nets
+ne = net.Net(netShape, bSize, eta)
+# List of integers used for SGD
+nc = []
+# List of epochs for SGD
+ep = 0
+# Number of training examples
+m = 0
 
-# Set first and feed forward
-n1.l[0] = load.nd[t]
-train.feed(n1)
-# Pass network and answer to backpropogation to populate delta matrices
-train.backProp(n1, load.genLabel(t))
+# Generate a list, counting to the length of the training array, and shuffle it for SGD
+for i in range(len(load.nd)):
+	nc.append(i)
+shuffle(nc)
+
+timecounter = 0
+
+for i in range(len(nc)):
+	# Neural net training loop
+	# Set randomized net count to initialize training data with to x
+	x = nc[i]
+	# Increment Epoch count by one
+	ep += 1
+
+	# Set first layer to input
+	ne.l[0] = load.nd[x]
+	# Feedforward
+	train.feed(ne)
+	# Pass network and answer to backprop
+	train.backProp(ne, load.genLabel(x))
+
+	# DIAG:
+	if i % bSize == 0:
+		print('epoch {}'.format(ep))
+		print(ne.l[-2])
+		load.plot(list(ne.l[0]))
+		print(load.genLabel(x))
+		
+		
+
+# Iterate through this to get the input array and label
+
+
+
+# TODO: Stochastic Gradient Descent (Inside Train module)
+	# TODO: Pool all values together for each weight, bias
+	# TODO: Perform SGD calculation
+# TODO: Output progress
+# TODO: Cycle through test samples to gauge accuracy
+# TODO: Save network for use later
+# TODO: Open existing network to test
 
 
 
@@ -77,4 +115,3 @@ print('f progressed in order: {}'.format(n1.track))
 load.plot(list(n1.l[0]))
 print(load.genLabel(t))
 '''
-

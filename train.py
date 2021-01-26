@@ -80,7 +80,6 @@ def backProp(n, a):
 		# Statement above this loop handles last layer, the 1: indicing loops after this layer
 		# DIAG:
 		f += 1
-		print('adjusted f: {}'.format(f))
 		n.track.append(f)
 
 		for y, z in enumerate(n.w[f-1]):
@@ -90,9 +89,12 @@ def backProp(n, a):
 				n.ww[f-1][y][m] = n.w[f-1][y][m]*n.ll[f][y]*sigPrime(n.l[f][y])
 
 
-def descent(n):
-	pass
-
-
-
-
+def SGD(n):
+	# Sum batched deltas
+	# This loop taken from backProp above
+	for f, g in reversed(list(enumerate(n.ww))):
+		f += 1
+		for y, z in enumerate(n.ww[f-1]):
+			for m, o in enumerate(n.ww[f-1][y]):
+				# Progress through ww and perform backprop calcs on m element of [f][y] array
+				n.ww[f-1][y][m] = n.eta / n.bs * (n.ww[f-1][y][m]

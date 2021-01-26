@@ -12,11 +12,15 @@ import numpy as np
 # Modules
 import train
 
+# Notes
+# n.x 	= initial definition of layer
+# n.xx 	= placeholder for delta 
+# n.xxx	= placeholder for summation
+
 
 class Net:
-	def __init__(self, layers, batchSize, eta):
+	def __init__(self, layers, bSize, eta):
 		self.lay = layers
-		self.batchSize = batchSize
 		self.eta = eta
 
 		# Calculated Attributes
@@ -26,6 +30,7 @@ class Net:
 
 		# Initialize
 		self.initialize()
+		self.bs = bSize
 	
 	def put():
 	# Put function: generate the numbers to insert into the hidden layer array
@@ -59,8 +64,10 @@ class Net:
 				self.ll.append([0. for z in range(self.lay[j])])
 				self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				self.ww.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.www.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				self.b.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				self.bb.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+				self.bbb.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 				continue
 
 			# Insert initialized number into array for hidden layers
@@ -68,5 +75,7 @@ class Net:
 			self.ll.append([0. for z in range(self.lay[j])])
 			self.w.append([[Net.put() for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 			self.ww.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.www.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 			self.b.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
 			self.bb.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
+			self.bbb.append([[0. for x in range(self.lay[j-1])] for y in range(self.lay[j])])
