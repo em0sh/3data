@@ -6,15 +6,15 @@ import net, train, load
 
 # Test modules
 from random import shuffle
-from pympler import asizeof
+import copy
 
 # Network Parameters
 # Array of layers & activations
 netShape = [28*28, 30, 10]
 # Batch size for descent
-bSize = 5000
+bSize = 100
 # Learning rate
-eta = .1
+eta = .5
 
 
 # Program Parameters
@@ -22,8 +22,6 @@ eta = .1
 ne = net.Net(netShape, bSize, eta)
 # List of integers used for SGD
 nc = []
-# List of epochs for SGD
-ep = 0
 # Number of training examples
 m = 0
 
@@ -32,29 +30,52 @@ for i in range(len(load.nd)):
 	nc.append(i)
 shuffle(nc)
 
+# DIAG:
+nc = [9]
+print(nc)
+
 timecounter = 0
 
-for i in range(len(nc)):
-	# Neural net training loop
-	# Set randomized net count to initialize training data with to x
-	x = nc[i]
-	# Increment Epoch count by one
-	ep += 1
+def compute():
+	# Iterate through and perform one loop of SGD based on the batch size
 
-	# Set first layer to input
-	ne.l[0] = load.nd[x]
-	# Feedforward
-	train.feed(ne)
-	# Pass network and answer to backprop
-	train.backProp(ne, load.genLabel(x))
+	# List of epochs for SGD
+	ep = 0
 
 	# DIAG:
-	if i % bSize == 0:
+	hold = copy.deepcopy(ne.w[0])
+
+	# DIAG: range(bSize)
+	for i in nc:
+		# Neural net training loop
+		# Set randomized net count to initialize training data with to x
+		# DIAG: x = nc[i]
+		x = i
+		# Increment Epoch count by one
+		ep += 1
+
+		# Set first layer to input
+		ne.l[0] = load.nd[x]
+		# Feedforward
+		train.feed(ne)
+		# Pass network and answer to backprop
+		train.backProp(ne, load.genLabel(x))
+
+		# DIAG:
 		print('epoch {}'.format(ep))
 		print(ne.l[-2])
 		load.plot(list(ne.l[0]))
 		print(load.genLabel(x))
-		
+	train.SGD(ne)
+	#print('network at start')
+	#print(hold)
+	print('network now')
+	print(ne.w[1])
+
+
+
+
+compute()
 		
 
 # Iterate through this to get the input array and label
@@ -62,8 +83,6 @@ for i in range(len(nc)):
 
 
 # TODO: Stochastic Gradient Descent (Inside Train module)
-	# TODO: Pool all values together for each weight, bias
-	# TODO: Perform SGD calculation
 # TODO: Output progress
 # TODO: Cycle through test samples to gauge accuracy
 # TODO: Save network for use later

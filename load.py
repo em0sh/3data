@@ -12,11 +12,6 @@ bSize = 255
 imagefile = 'data/trainimage'
 labelfile = 'data/trainlabel'
 
-# TODO: Don't think this is necessary anymore - delete if not
-'''
-# Length of array
-ndarrl = len(ndarrc)
-'''
 
 # initialize layer array and label array
 nd = []

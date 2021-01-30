@@ -79,22 +79,30 @@ def backProp(n, a):
 	for f, g in reversed(list(enumerate(n.w))):
 		# Statement above this loop handles last layer, the 1: indicing loops after this layer
 		# DIAG:
-		f += 1
 		n.track.append(f)
 
+		f += 1
+		print('backprop f = {}'.format(f))
+		input('')
 		for y, z in enumerate(n.w[f-1]):
 
 			for m, o in enumerate(n.w[f-1][y]):
 				# Progress through ww and perform backprop calcs on m element of [f][y] array
-				n.ww[f-1][y][m] = n.w[f-1][y][m]*n.ll[f][y]*sigPrime(n.l[f][y])
+				n.ww[f-1][y][m] += n.w[f-1][y][m]*n.ll[f][y]*sigPrime(n.l[f][y])
+				n.bb[f-1][y][m] += sigPrime(n.b[f-1][y][m])
 
 
 def SGD(n):
 	# Sum batched deltas
 	# This loop taken from backProp above
-	for f, g in reversed(list(enumerate(n.ww))):
-		f += 1
-		for y, z in enumerate(n.ww[f-1]):
-			for m, o in enumerate(n.ww[f-1][y]):
+	for f, g in reversed(list(enumerate(n.w))):
+
+		for y, z in enumerate(n.w[f]):
+			for m, o in enumerate(n.w[f][y]):
 				# Progress through ww and perform backprop calcs on m element of [f][y] array
-				n.ww[f-1][y][m] = n.eta / n.bs * (n.ww[f-1][y][m]
+				# CAUTION: SGD is dependent on batch size or n.bs, check on this in the future
+				print('w[{}][{}][{}] was {}, adjustment was {}'.format(f, y, m, n.w[f][y][m], n.eta / n.bs * n.ww[f][y][m]))
+
+				print('n.w[{}][{}][{}]'.format(f, y, m))
+				n.w[f][y][m] -= n.eta / n.bs * n.ww[f][y][m]
+				n.b[f][y][m] -= n.eta / n.bs * n.bb[f][y][m]
