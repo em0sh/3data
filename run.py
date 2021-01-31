@@ -30,9 +30,7 @@ for i in range(len(load.nd)):
 	nc.append(i)
 shuffle(nc)
 
-# DIAG:
-nc = [9]
-print(nc)
+# DIAG: nc = [9]
 
 timecounter = 0
 
@@ -45,12 +43,12 @@ def compute():
 	# DIAG:
 	hold = copy.deepcopy(ne.w[0])
 
-	# DIAG: range(bSize)
-	for i in nc:
+	# DIAG: nc
+	for i in range(bSize):
 		# Neural net training loop
 		# Set randomized net count to initialize training data with to x
-		# DIAG: x = nc[i]
-		x = i
+		# DIAG: x = i
+		x = nc[i]
 		# Increment Epoch count by one
 		ep += 1
 
@@ -62,15 +60,17 @@ def compute():
 		train.backProp(ne, load.genLabel(x))
 
 		# DIAG:
-		print('epoch {}'.format(ep))
-		print(ne.l[-2])
-		load.plot(list(ne.l[0]))
-		print(load.genLabel(x))
+		if ep % 10  == 0:
+			print('epoch {}'.format(ep))
+			print(ne.l[1])
+			load.plot(list(ne.l[0]))
+			print(load.genLabel(x))
 	train.SGD(ne)
 	#print('network at start')
 	#print(hold)
 	print('network now')
-	print(ne.w[1])
+	ne.w[0][-1][-1] = 5.
+	print(ne.w[0])
 
 
 
@@ -82,13 +82,14 @@ compute()
 
 
 
-# TODO: Stochastic Gradient Descent (Inside Train module)
 # TODO: Output progress
 # TODO: Cycle through test samples to gauge accuracy
 # TODO: Save network for use later
 # TODO: Open existing network to test
 
 
+# TODO: Stochastic Gradient Descent (Inside Train module)
+	# First weight layer is not updating for some reason - is this right? Check this later
 
 
 
