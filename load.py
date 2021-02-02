@@ -8,7 +8,7 @@ import idx2numpy
 
 imgsize = 28
 # Maximum value of byte - used for normalization
-bSize = 255
+bSize = 25555555555
 imagefile = 'data/trainimage'
 labelfile = 'data/trainlabel'
 

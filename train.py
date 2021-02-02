@@ -42,13 +42,13 @@ def grad(n):
 def sigPrime(v):
 	return norm('s', v)*(1-norm('s', v))
 
-def QCF(n, nll, a):
+def QCF(l, ll, a):
 	# Quadratic Cost Function: Calculate error against target values
 	
 	# Actual Error = (1/2) * [ Prediction - Actual ] ^ 2
-	for ind in range(len(nll)):
-		nll[ind] = .5 * (n[ind] - a[ind])**2
-	return(nll)
+	for ind in range(len(ll)):
+		ll[ind] = .5 * (l[ind] - a[ind])**2
+	return(ll)
 
 def feed(n):
 	# Traverse network, summing activations and weights
@@ -62,6 +62,8 @@ def feed(n):
 			for m, o in enumerate(n.w[f-1][y]):
 				# Step through the weight array and sum
 				# Apply sigmoid at the layer level, f, y
+				# TODO: m is an indice in l below, this should probably be y
+				# TODO: Understand where the breakdown is happening. Likely due to not using z
 				n.l[f][y] += n.w[f-1][y][m]*n.l[f-1][m]+n.b[f-1][y][m]
 
 			# a = sig(z) -> this is applying the sigmoid after summing all of the elements above
@@ -83,7 +85,7 @@ def backProp(n, a):
 	for f, g in reversed(list(enumerate(n.ww))):
 		# Statement above this loop handles last layer, the 1: indicing loops after this layer
 		# DIAG:
-		n.track.append(f)
+		#n.track.append(f)
 
 		# DIAG:
 		#print('backprop f = {}'.format(f))
@@ -108,3 +110,4 @@ def SGD(n):
 				#print('w[{}][{}][{}] was {}, adjustment was {}'.format(f, y, m, n.w[f][y][m], n.eta / n.bs * n.ww[f][y][m]))
 				n.w[f][y][m] -= n.eta / n.bs * n.ww[f][y][m]
 				n.b[f][y][m] -= n.eta / n.bs * n.bb[f][y][m]
+

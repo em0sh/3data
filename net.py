@@ -36,7 +36,7 @@ class Net:
 	# Put function: generate the numbers to insert into the hidden layer array
 		# DIAG:
 		#return random.uniform(-1., 1.)
-		return .2
+		return .1
 
 
 	def initialize(self):

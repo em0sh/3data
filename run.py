@@ -12,9 +12,9 @@ import copy
 # Array of layers & activations
 netShape = [28*28, 30, 10]
 # Batch size for descent
-bSize = 100
+bSize = 10
 # Learning rate
-eta = .5
+eta = .1
 
 
 # Program Parameters
@@ -60,7 +60,7 @@ def compute():
 		train.backProp(ne, load.genLabel(x))
 
 		# DIAG:
-		if ep % 10  == 0:
+		if ep % 1  == 0:
 			print('epoch {}'.format(ep))
 			print(ne.l[1])
 			load.plot(list(ne.l[0]))
@@ -69,7 +69,6 @@ def compute():
 	#print('network at start')
 	#print(hold)
 	print('network now')
-	ne.w[0][-1][-1] = 5.
 	print(ne.w[0])
 
 
