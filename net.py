@@ -74,6 +74,7 @@ class Net:
 			# Insert initialized number into array for hidden layers
 			self.l.append([0. for z in range(self.lay[j])])
 			self.ll.append([0. for z in range(self.lay[j])])
+			self.z.append([0. for z in range(self.lay[j])])
 			self.w.append([[Net.put() for x in range(self.lay[j])] for y in range(self.lay[j-1])])
 			self.ww.append([[0. for x in range(self.lay[j])] for y in range(self.lay[j-1])])
 			self.b.append([[0. for x in range(self.lay[j])] for y in range(self.lay[j-1])])
