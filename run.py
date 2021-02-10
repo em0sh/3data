@@ -1,7 +1,3 @@
-# TODO:
-	# Implement Gradient Descent
-		# Get total number of samples, n
-		#? Average over batches?
 import net, train, load
 
 # Test modules
@@ -12,7 +8,7 @@ import copy
 # Array of layers & activations
 netShape = [28*28, 30, 10]
 # Batch size for descent
-bSize = 10
+bSize = 5
 # Learning rate
 eta = .1
 
@@ -22,8 +18,8 @@ eta = .1
 ne = net.Net(netShape, bSize, eta)
 # List of integers used for SGD
 nc = []
-# Number of training examples
-m = 0
+
+
 
 # Generate a list, counting to the length of the training array, and shuffle it for SGD
 for i in range(len(load.nd)):
@@ -41,7 +37,7 @@ def compute():
 	ep = 0
 
 	# DIAG:
-	hold = copy.deepcopy(ne.w[0])
+	hold = copy.deepcopy(ne.z[1])
 
 	# DIAG: nc
 	for i in range(bSize):
@@ -54,22 +50,25 @@ def compute():
 
 		# Set first layer to input
 		ne.l[0] = load.nd[x]
+
 		# Feedforward
 		train.feed(ne)
+		
+
 		# Pass network and answer to backprop
 		train.backProp(ne, load.genLabel(x))
 
 		# DIAG:
-		if ep % 1  == 0:
+		if ep % (bSize/10)  == 0:
 			print('epoch {}'.format(ep))
 			print(ne.l[1])
 			load.plot(list(ne.l[0]))
 			print(load.genLabel(x))
 	train.SGD(ne)
-	#print('network at start')
-	#print(hold)
+	print('network at start')
+	print(hold)
 	print('network now')
-	print(ne.w[0])
+	print(ne.z[1])
 
 
 
@@ -77,11 +76,9 @@ def compute():
 compute()
 		
 
-# Iterate through this to get the input array and label
 
 
 
-# TODO: Output progress
 # TODO: Cycle through test samples to gauge accuracy
 # TODO: Save network for use later
 # TODO: Open existing network to test

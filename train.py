@@ -8,39 +8,14 @@ import numpy as np
 		# Cost Function: C(w,b) = (1/2n) SUM(||y(x)-a||^2, x)
 	# Back propogation (Training)
 	# Visualize training (Chart, bars, etc)
+# DIAG:
+diag = 0
 
-def norm(m, val):
-	# Normalize according to specified 'm'ode:
-		# s -> sigmoid
-		# r -> rectified linear 
-	# Sigmoid
-	if m == 's':
-		# Normalize to the maximum value of the input (255)
-
-		return(1 / (1 + np.exp(-val)))
-
-	# RELU
-	elif m == 'r':
-		if val > 1.:
-			return 1.
-		if val < -1.:
-			return -1.
-		else:
-			return val
-	
-	elif m == 'l':
-		return val
-
-def grad(n):
-	# Perform stochastic gradient
-		# n = instantiated net class
-		# initialize l1
-			# Set l1 equal to existing values
-		# Perform operations on l1o
-	pass
+def norm(val):
+	return(1.0 / (1.0 + np.exp(-val)))
 
 def sigPrime(v):
-	return norm('s', v)*(1-norm('s', v))
+	return norm(v)*(1-norm(v))
 
 def QCF(l, ll, a):
 	# Quadratic Cost Function: Calculate error against target values
@@ -51,25 +26,41 @@ def QCF(l, ll, a):
 	return(ll)
 
 def feed(n):
+	print(n.w)
+	print(len(n.w))
+	print(len(n.w[0]))
+	print(len(n.w[0][1]))
+	input('')
 	# Traverse network, summing activations and weights
 	for f, g in enumerate(n.l[1:]):
-
+		print('f starting as: {}'.format(f))
+		input('')
+	
 	# n.l represents the layer array
 		# Add one to match enumerate to actual slicing
-		f += 1
-		for y, z in enumerate(n.l[f]):
-		# n.l[f] represents the individual element within the n.l array - sum this
-			for m, o in enumerate(n.w[f-1][y]):
+
+		for y, z in enumerate(n.w[f]):
+			print('f: {}'.format(f))
+			print('elements in n.l array: {}'.format(len(n.l[f])))
+			input('')
+		# n.l[f] represents the individual element within the n.l array
+			for m, o in enumerate(n.w[f][y]):
+				print('elements in n.w array: {}'.format(len(n.w[f][y])))
 				# Step through the weight array and sum
 				# Apply sigmoid at the layer level, f, y
-				# TODO: m is an indice in l below, this should probably be y
-				# TODO: Understand where the breakdown is happening. Likely due to not using z
-				n.l[f][y] += n.w[f-1][y][m]*n.l[f-1][m]+n.b[f-1][y][m]
+
+			
+				print('f: {}, y: {}, m: {}'.format(f, y, m))
+				print('n.z[f+1][y] += n.w[f][y][m]*n.l[f][y]+n.b[f][y][m]')
+				print('{} += {} * {} + {}'.format(n.z[f+1][y], n.w[f][y][m], n.l[f][y], n.b[f][y][m]))
+				n.z[f+1][y] += n.w[f][y][m]*n.l[f][y]+n.b[f][y][m]
+				print('n.z[{}][{}] now: {}'.format(f+1, y, n.z[f][y]))
+				#input('')
 
 			# a = sig(z) -> this is applying the sigmoid after summing all of the elements above
 			#print('n.l[f][y] -> n.l[{}][{}] = {}'.format(f, y, n.l[f][y]))
-			#print('sigmoid of this is {}'.format(norm('s', n.l[f][y])))
-			n.l[f][y] = norm('s', n.l[f][y])
+			#print('sigmoid of this is {}'.format(norm(n.l[f][y])))
+			n.l[f][y] = norm(n.z[f][y])
 			#print('new n.l value is {}'.format(n.l[f][y]))
 			#input('')
 
@@ -79,7 +70,6 @@ def backProp(n, a):
 	
 	# Invoke QCF and set error for last layer
 	n.ll[-1] = QCF(n.l[-1], n.ll[-1], a)
-
 
 
 	for f, g in reversed(list(enumerate(n.ww))):
@@ -94,20 +84,27 @@ def backProp(n, a):
 
 			for m, o in enumerate(n.ww[f][y]):
 				# Progress through ww and perform backprop calcs on m element of [f][y] array
-				n.ww[f][y][m] += n.w[f][y][m]*n.ll[f+1][y]*sigPrime(n.l[f+1][y])
+				n.ww[f][y][m] += n.w[f][y][m]*n.ll[f+1][y]*sigPrime(n.z[f+1][y])
+
+				if n.ww[f][y][m] > 0.000000001 and diag == 1:
+					print('n.w[f][y][m] = {}, n.ll[f+1][y] = {}, sigPrime(n.z[f+1][y]) = {}'.format(n.w[f][y][m], n.ll[f+1][y], sigPrime(n.z[f+1][y])))
+					print('n.z[f+1][y] = {}'.format(n.z[f+1][y]))
+					print(n.ww[f][y][m])
+					print('n.ww[f][y][m] = n.ww[{}][{}][{}]'.format(f, y, m))
+					input('')
 				n.bb[f][y][m] += sigPrime(n.b[f][y][m])
 
 
 def SGD(n):
 	# Sum batched deltas
 	# This loop taken from backProp above
-	for f, g in reversed(list(enumerate(n.w))):
-
+	for f, g in reversed(list(enumerate(n.l[:1]))):
 		for y, z in enumerate(n.w[f]):
 			for m, o in enumerate(n.w[f][y]):
 				# Progress through ww and perform backprop calcs on m element of [f][y] array
-				# CAUTION: SGD is dependent on batch size or n.bs, check on this in the future
-				#print('w[{}][{}][{}] was {}, adjustment was {}'.format(f, y, m, n.w[f][y][m], n.eta / n.bs * n.ww[f][y][m]))
-				n.w[f][y][m] -= n.eta / n.bs * n.ww[f][y][m]
+				# TODO: SGD is dependent on batch size or n.bs, check on this in the future
+				#print('n[f][y][m] = n[{}][{}][{}]'.format(f, y, m))
+				#print('n.l[f][y]*n.ww[f][y][m] = {} * {}'.format(n.l[f][y],n.ww[f][y][m]))
+				n.w[f][y][m] -= n.eta / n.bs * n.l[f][y]*n.ww[f][y][m]
 				n.b[f][y][m] -= n.eta / n.bs * n.bb[f][y][m]
 
