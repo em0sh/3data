@@ -26,42 +26,34 @@ def QCF(l, ll, a):
 	return(ll)
 
 def feed(n):
-	print(n.w[0][0])
-	print(len(n.w[0][0]))
-	input('')
 	# Traverse network, summing activations and weights
 	for f, g in enumerate(n.w):
-		print('f starting as: {}'.format(f))
-		input('')
-	
 		# n.l represents the layer array
+		print(n.l[f+1])
 
 		for y, z in enumerate(n.w[f]):
-			print('f: {}'.format(f))
-			print('elements in n.l array: {}'.format(len(n.l[f])))
-			input('')
 		# n.l[f] represents the individual element within the n.l array
 			for m, o in enumerate(n.w[f][y]):
-				print('elements in n.w array: {}'.format(len(n.w[f][y])))
 				# Step through the weight array and sum
 				# Apply sigmoid at the layer level, f, y
 				# For the n.z array, using m seems counter-intuitive, but this is because of how
 				#	the n.w array is structured. y becomes m for z to maintain correct
 				#	iteration
 
-				print('f: {}, y: {}, m: {}'.format(f, y, m))
-				print('n.z[f+1][y] += n.w[f][y][m]*n.l[f][y]+n.b[f][y][m]')
-				print('{} += {} * {} + {}'.format(n.z[f+1][m], n.w[f][y][m], n.l[f][y], n.b[f][y][m]))
-				n.z[f+1][m] += n.w[f][y][m]*n.l[f][y]+n.b[f][y][m]
-				print('n.z[{}][{}] now: {}'.format(f+1, y, n.z[f][y]))
-				#input('')
+				#print('f: {}, y: {}, m: {}'.format(f, y, m))
+				#print('{} += {} * {} + {}'.format(n.z[f+1][m], n.w[f][y][m], n.l[f][y], n.b[f][y][m]))
 
+				n.z[f+1][m] += n.w[f][y][m]*n.l[f][y]+n.b[f][y][m]
+
+				#print('n.z[{}][{}] now: {}'.format(f+1, m, n.z[f+1][m]))
+
+
+		for i in range(len(n.l[f+1])):
 			# a = sig(z) -> this is applying the sigmoid after summing all of the elements above
-			#print('n.l[f][y] -> n.l[{}][{}] = {}'.format(f, y, n.l[f][y]))
-			#print('sigmoid of this is {}'.format(norm(n.l[f][y])))
-			n.l[f][y] = norm(n.z[f][y])
-			#print('new n.l value is {}'.format(n.l[f][y]))
-			#input('')
+			n.l[f+1][i] = norm(n.z[f+1][i])
+
+		print(n.l[f+1])
+		input('')
 
 def backProp(n, a):
 	# Propogate error backwards through network
