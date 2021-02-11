@@ -2,6 +2,11 @@
 # Model Training
 ##########################
 import numpy as np
+from copy import deepcopy
+
+
+# DIAG:
+import load
 
 # TODO:
 	# Stochastic Gradient Descent
@@ -25,18 +30,25 @@ def QCF(l, ll, a):
 		ll[ind] = .5 * (l[ind] - a[ind])**2
 	return(ll)
 
-def feed(n):
+def feed(ne, train):
 	# Traverse network, summing activations and weights
+
+	# Set network equal to input array if true (for training)
+	# Otherwise, copy for estimation
+	if train == True:
+		n = ne
+	else:
+		n = deepcopy(ne)
+
 	for f, g in enumerate(n.w):
 		# n.l represents the layer array
-		print(n.l[f+1])
 
 		for y, z in enumerate(n.w[f]):
 		# n.l[f] represents the individual element within the n.l array
 			for m, o in enumerate(n.w[f][y]):
 				# Step through the weight array and sum
 				# Apply sigmoid at the layer level, f, y
-				# For the n.z array, using m seems counter-intuitive, but this is because of how
+				# For the n.z array, using m seems comunter-intuitive, but this is because of how
 				#	the n.w array is structured. y becomes m for z to maintain correct
 				#	iteration
 
@@ -47,13 +59,15 @@ def feed(n):
 
 				#print('n.z[{}][{}] now: {}'.format(f+1, m, n.z[f+1][m]))
 
-
+	
 		for i in range(len(n.l[f+1])):
 			# a = sig(z) -> this is applying the sigmoid after summing all of the elements above
 			n.l[f+1][i] = norm(n.z[f+1][i])
+	
 
-		print(n.l[f+1])
-		input('')
+	if train == False:
+		print(['%.9f' % x for x in  n.l[-1]])
+	
 
 def backProp(n, a):
 	# Propogate error backwards through network
@@ -75,14 +89,7 @@ def backProp(n, a):
 
 			for m, o in enumerate(n.ww[f][y]):
 				# Progress through ww and perform backprop calcs on m element of [f][y] array
-				n.ww[f][y][m] += n.w[f][y][m]*n.ll[f+1][y]*sigPrime(n.z[f+1][y])
-
-				if n.ww[f][y][m] > 0.000000001 and diag == 1:
-					print('n.w[f][y][m] = {}, n.ll[f+1][y] = {}, sigPrime(n.z[f+1][y]) = {}'.format(n.w[f][y][m], n.ll[f+1][y], sigPrime(n.z[f+1][y])))
-					print('n.z[f+1][y] = {}'.format(n.z[f+1][y]))
-					print(n.ww[f][y][m])
-					print('n.ww[f][y][m] = n.ww[{}][{}][{}]'.format(f, y, m))
-					input('')
+				n.ww[f][y][m] += n.w[f][y][m]*n.ll[f+1][m]*sigPrime(n.z[f+1][m])
 				n.bb[f][y][m] += sigPrime(n.b[f][y][m])
 
 
@@ -96,6 +103,6 @@ def SGD(n):
 				# TODO: SGD is dependent on batch size or n.bs, check on this in the future
 				#print('n[f][y][m] = n[{}][{}][{}]'.format(f, y, m))
 				#print('n.l[f][y]*n.ww[f][y][m] = {} * {}'.format(n.l[f][y],n.ww[f][y][m]))
-				n.w[f][y][m] -= n.eta / n.bs * n.l[f][y]*n.ww[f][y][m]
+				n.w[f][y][m] -= n.eta / n.bs * n.l[f][m]*n.ww[f][y][m]
 				n.b[f][y][m] -= n.eta / n.bs * n.bb[f][y][m]
 

@@ -1,21 +1,21 @@
 import net, train, load
 
 # Test modules
-from random import shuffle
+from random import shuffle, randint
 import copy
 
 # Network Parameters
 # Array of layers & activations
 netShape = [28*28, 30, 10]
 # Batch size for descent
-bSize = 5
+bSize = 10
 # Learning rate
 eta = .1
 
 
-# Program Parameters
-# List containing nets
+# Instantiate network object
 ne = net.Net(netShape, bSize, eta)
+
 # List of integers used for SGD
 nc = []
 
@@ -36,9 +36,6 @@ def compute():
 	# List of epochs for SGD
 	ep = 0
 
-	# DIAG:
-	hold = copy.deepcopy(ne.z[1])
-
 	# DIAG: nc
 	for i in range(bSize):
 		# Neural net training loop
@@ -52,7 +49,7 @@ def compute():
 		ne.l[0] = load.nd[x]
 
 		# Feedforward
-		train.feed(ne)
+		train.feed(ne, True)
 		
 
 		# Pass network and answer to backprop
@@ -61,19 +58,28 @@ def compute():
 		# DIAG:
 		if ep % (bSize/10)  == 0:
 			print('epoch {}'.format(ep))
-			print(ne.l[1])
+			print(ne.l[-1])
 			load.plot(list(ne.l[0]))
 			print(load.genLabel(x))
 	train.SGD(ne)
-	print('network at start')
-	print(hold)
-	print('network now')
-	print(ne.z[1])
 
 
 
+
+def test(z):
+	ne.l[0] = load.nd[z]
+	train.feed(ne, False)
+	print(ne.l[-1])
+	print(load.genLabel(z))
+	
 
 compute()
+
+
+while True:
+	z = int(input('int: '))
+	test(z)
+
 		
 
 
@@ -86,48 +92,3 @@ compute()
 
 # TODO: Stochastic Gradient Descent (Inside Train module)
 	# First weight layer is not updating for some reason - is this right? Check this later
-
-
-
-
-
-
-
-
-
-
-
-# DIAG:
-#---------------------------------------------------------------------------------------------------
-# show current layers for diagnostics
-'''
-z = 2
-zz = z - 1
-print('summary of layer l: {}'.format(z))
-print('\nll')
-print(n1.ll[z])
-print(len(n1.ll[z]))
-
-print('\nww')
-print(n1.ww[zz])
-print(len(n1.ww[zz]))
-
-print('\nbb')
-print(n1.bb[zz])
-print(len(n1.bb[zz]))
-
-# Print output layer of network
-print("output layer of net")
-print([ '%.1f' % el for el in n1.ll[-1]])
-
-# Sum the outputs to diagnose changes in network
-print('sum of output layer')
-print('%.2f' % sum([i for i in n1.ll[-1]]))
-
-print('f progressed in order: {}'.format(n1.track))
-'''
-# Print label and image
-'''
-load.plot(list(n1.l[0]))
-print(load.genLabel(t))
-'''
