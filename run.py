@@ -8,7 +8,7 @@ import copy
 # Array of layers & activations
 netShape = [28*28, 30, 10]
 # Batch size for descent
-bSize = 10
+bSize = 1000
 # Learning rate
 eta = .1
 

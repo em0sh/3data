@@ -10,9 +10,8 @@ import numpy as np
 import train
 
 # Notes
-# n.x 	= initial definition of layer
-# n.xx 	= placeholder for delta 
-# n.xxx	= placeholder for summation
+# n.x 	= initial definition of object
+# n.xx 	= error
 
 
 class Net:
