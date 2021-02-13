@@ -79,3 +79,7 @@ class Net:
 			self.b.append([[0. for x in range(self.lay[j])] for y in range(self.lay[j-1])])
 			self.bb.append([[0. for x in range(self.lay[j])] for y in range(self.lay[j-1])])
 
+
+
+
+

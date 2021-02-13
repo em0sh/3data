@@ -91,8 +91,8 @@ def backProp(n, a):
 			for m, o in enumerate(n.ww[f][y]):
 
 				# Progress through ww and perform backprop calcs on m element of [f][y] array
-				n.ww[f-1][y][m] = n.w[f][y][m]*n.ll[f][m]*sigPrime(n.z[f-1][m])
-				n.bb[f-1][y][m] = sigPrime(n.b[f-1][y][m])
+				n.ww[f-1][y][m] += n.w[f][y][m]*n.ll[f+1][m]*sigPrime(n.z[f][m])
+				n.bb[f-1][y][m] += sigPrime(n.b[f][y][m])
 
 
 def SGD(n):
@@ -103,13 +103,11 @@ def SGD(n):
 		# Should skip first layer (Interpretaion from equations, need to check)
 		if f == 0:
 			break
-
 		for y, z in enumerate(n.w[f]):
 			for m, o in enumerate(n.w[f][y]):
 				# Progress through ww and perform backprop calcs on m element of [f][y] array
 				# TODO: SGD is dependent on batch size or n.bs, check on this in the future
-				#print('n[f][y][m] = n[{}][{}][{}]'.format(f, y, m))
-				#print('n.l[f][y]*n.ww[f][y][m] = {} * {}'.format(n.l[f][y],n.ww[f][y][m]))
+
 				n.w[f][y][m] -= n.eta / n.bs * n.l[f-1][m]*n.ww[f][y][m]
 				n.b[f][y][m] -= n.eta / n.bs * n.bb[f][y][m]
-
+	
