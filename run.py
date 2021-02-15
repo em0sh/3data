@@ -26,9 +26,6 @@ for i in range(len(load.nd)):
 	nc.append(i)
 shuffle(nc)
 
-# DIAG: nc = [9]
-
-timecounter = 0
 
 def compute():
 	# Iterate through and perform one loop of SGD based on the batch size
@@ -61,7 +58,7 @@ def compute():
 			print(ne.l[-1])
 			load.plot(list(ne.l[0]))
 			print(load.genLabel(x))
-	train.SGD(ne)
+		train.SGD(ne)
 
 
 
@@ -69,7 +66,6 @@ def compute():
 def test(z):
 	ne.l[0] = load.nd[z]
 	train.feed(ne, False)
-	print(ne.l[-1])
 	print(load.genLabel(z))
 	
 
