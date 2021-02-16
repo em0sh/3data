@@ -67,6 +67,7 @@ def test(z):
 	ne.l[0] = load.nd[z]
 	train.feed(ne, False)
 	print(load.genLabel(z))
+	load.plot(list(ne.l[0]))
 	
 
 compute()
