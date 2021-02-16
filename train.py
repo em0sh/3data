@@ -22,12 +22,17 @@ def norm(val):
 def sigPrime(v):
 	return norm(v)*(1-norm(v))
 
-def QCF(l, ll, a):
+def QCF(a, ll, y, z):
 	# Quadratic Cost Function: Calculate error against target values
 	
 	# Actual Error = (1/2) * [ Prediction - Actual ] ^ 2
 	for ind in range(len(ll)):
-		ll[ind] = .5 * (l[ind] - a[ind])**2
+		# This version computes the actual statistical error
+		#ll[ind] = .5 * (l[ind] - y[ind])**2
+
+		# error at ll = (a - y) * sigprime(z)
+		ll[ind] = (a[ind] - y[ind]) * sigPrime(z[ind])
+
 	return(ll)
 
 def feed(ne, train):
@@ -69,12 +74,12 @@ def feed(ne, train):
 		print(['%.9f' % x for x in  n.l[-1]])
 	
 
-def backProp(n, a):
+def backProp(n, ans):
 	# Propogate error backwards through network
 	# n.ww, n.bb contains the error, or delta for computation in stochastic gradient descent
 	
 	# Invoke QCF and set error for last layer
-	n.ll[-1] = QCF(n.l[-1], n.ll[-1], a)
+	n.ll[-1] = QCF(n.l[-1], n.ll[-1], ans, n.z[-1])
 
 
 	for f, g in reversed(list(enumerate(n.w))):
@@ -97,7 +102,7 @@ def backProp(n, a):
 				#print('n.z[f][m] = {}'.format(n.z[f][m]))
 				#print('sigPrime(n.z[f][m]) = {}'.format(sigPrime(n.z[f][m])))
 
-				n.ll[f][m] += n.w[f][y][m]*n.ll[f+1][m]*sigPrime(n.z[f][m])
+				n.ll[f][y] += n.w[f][y][m]*n.ll[f+1][m]*sigPrime(n.z[f][m])
 
 				#print('n.ll[f][m] = {}'.format(n.ll[f][m]))
 			#input('')
@@ -109,6 +114,12 @@ def backProp(n, a):
 				#	such as n.ww and n.bb
 				#n.bb[f-1][y][m] += sigPrime(n.b[f][y][m])
 
+	# DIAG:
+	#print('n.l[-1]: {}'.format(n.l[-1]))
+	#print('n.ll[-1]: {}'.format(n.ll[-1]))
+	#print('n.z[-1]: {}'.format(n.z[-1]))
+	#input('')
+
 
 def SGD(n):
 	# Sum batched deltas
@@ -117,30 +128,33 @@ def SGD(n):
 
 	for f, g in reversed(list(enumerate(n.w))):
 
-		# Should skip first layer (Interpretaion from equations, need to check)
+		f += 1
 
-		for y, z in enumerate(n.w[f]):
-			for m, o in enumerate(n.w[f][y]):
+		# Should skip first layer (Interpretaion from equations, need to check)
+		if f == 0:
+			break
+
+		for y, z in enumerate(n.w[f-1]):
+			for m, o in enumerate(n.w[f-1][y]):
 				# Progress through ww and perform backprop calcs on m element of [f][y] array
 				# TODO: SGD is dependent on batch size or n.bs, check on this in the future
 
 				#print('-----------------------------')
 				#print('f = {}, y = {}, m = {}'.format(f, y, m))
 				#
-				#print('n.w[{}][{}][{}] = {}'.format(f, y, m, n.w[f][y][m]))
+				#print('n.w[{}][{}][{}] = {}'.format(f-1, y, m, n.w[f-1][y][m]))
 				##print('n.eta/n.bs = {}'.format(n.eta/n.bs))
-				#print('n.l[{}][{}] = {}'.format(f, y, n.l[f][y]))
-				#print('n.ll[{}][{}] = {}'.format(f, y, n.ll[f][y]))
+				#print('n.l[{}][{}] = {}'.format(f-1, y, n.l[f-1][y]))
+				#print('n.ll[{}][{}] = {}'.format(f, m, n.ll[f][m]))
 			
-				n.w[f][y][m] -= n.eta* n.l[f][y]*n.ll[f][y]
-				n.b[f][y][m] -= n.eta* n.ll[f][y]
+				n.w[f-1][y][m] -= n.eta* n.l[f-1][y]*n.ll[f][m]
+				n.b[f-1][y][m] -= n.eta* n.ll[f][m]
 				
 				#print('calcuated:')
-				#print('n.w[f][y][m] = {}'.format(n.w[f][y][m]))
-				#print('n.b[f][y][m] = {}'.format(n.b[f][y][m]))
+				#print('n.w[f-1][y][m] = {}'.format(n.w[f-1][y][m]))
+				#print('n.b[f-1][y][m] = {}'.format(n.b[f-1][y][m]))
 
-				#if n.l[f][y] and n.ww[f][y][m] >= 0:
-					#input('')
+			#input('')
 
 
 	# Zero out arrays
