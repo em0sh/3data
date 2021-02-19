@@ -7,26 +7,35 @@ import copy
 
 # Network Parameters
 # Array of layers & activations
-netShape = [28*28, 30, 10]
+netShape = [28*28, 30, 30, 10]
 # Batch size for descent
 bSize = 60000
 # Learning rate
-eta = .1
+eta = .0
+
+# Number of iterations to test
+tst = 1000
 
 
 
-# Instantiate network object
-ne = net.Net(netShape, bSize, eta)
 
 def compute():
+	# Instantiate network object
+	ne = net.Net(netShape, bSize, eta)
 
 	# List of integers used for SGD
 	nc = []
+
+
 
 	# Generate a list, counting to the length of the training array, and shuffle it for SGD
 	for i in range(len(load.nd)):
 		nc.append(i)
 	shuffle(nc)
+
+	# Iterate through and perform one loop of SGD based on the batch size
+	# ct: variable to hold count of correct guesses
+	ct = 0
 
 	# List of epochs for SGD
 	ep = 0
@@ -50,33 +59,40 @@ def compute():
 		# Pass network and answer to backprop
 		train.backProp(ne, load.genLabel(x))
 
+		'''
 		if ep % (bSize/10)  == 0:
 			print('epoch {}'.format(ep))
 			print(ne.l[-1])
 			load.plot(list(ne.l[0]))
 			print(load.genLabel(x))
+		'''
 		train.SGD(ne)
 
+	shuffle(nc)
+
+	for i in range(tst):
+		if bSize < tst:
+			break
+		z = nc[i]
+
+		ne.l[0] = load.nd[z]
+		guess = np.argmax(train.feed(ne, False))
+		answer = np.argmax(load.genLabel(z))
+
+		if answer == guess:
+			ct += 1
+	
+	print('correct %: {}, eta: {}'.format(ct/tst, eta))
+		
 
 
-def test(z):
-	ne.l[0] = load.nd[z]
-
-	load.plot(list(ne.l[0]))	
-
-	an = train.feed(ne, False)
-	print(an)
-	print('net guess is: {}'.format(np.argmax(an)))
-	print('answer is: {}'.format(np.argmax(load.genLabel(z))))
+	
 
 
-compute()
 
 while True:
-	z = int(input('int: '))
-	test(z)
-
-
+	eta += .025
+	compute()
 
 		
 
