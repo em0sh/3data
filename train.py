@@ -85,13 +85,13 @@ def backProp(n, ans):
 		if f == 0:
 			break
 
-		for y, z in enumerate(n.w[f]):
+		for y, z in enumerate(n.ll[f]):
 
 			for m, o in enumerate(n.w[f][y]):
 
 				# Progress through ww and perform backprop calcs on m element of [f][y] array
 				# DIAG: Are y and m here used correctly in the indicing? (n.ll[f][m] was y prior)
-				n.ll[f][m] += n.w[f][y][m]*n.ll[f+1][m]*sigPrime(n.z[f][m])
+				n.ll[f][y] += n.w[f][y][m]*n.ll[f+1][m]*sigPrime(n.z[f][y])
 
 
 def SGD(n):
