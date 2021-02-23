@@ -16,7 +16,7 @@ ne = []
 nc = []
 
 # Batch size for descent
-bSize = 2000
+bSize = 60000
 # Learning rate
 eta = 1
 
