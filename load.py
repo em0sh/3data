@@ -9,21 +9,26 @@ import idx2numpy
 imgsize = 28
 # Maximum value of byte - used for normalization
 bSize = 255.
-imagefile = 'data/trainimage'
-labelfile = 'data/trainlabel'
+trainimage = 'data/trainimage'
+trainlabel = 'data/trainlabel'
+testimage = 'data/testimage'
+testlabel = 'data/testlabel'
 
 
 # initialize layer array and label array
 nd = []
 
+# TODO: Left off here
+# initialize layer array and label array
+ndt = []
 
 # ndarrc is the array of the entire training set - put into nd and normalize
-ndarrc = idx2numpy.convert_from_file(imagefile)
+ndarrc = idx2numpy.convert_from_file(trainimage)
 for i in ndarrc:
 	nd.append(np.concatenate(i*(1/bSize), axis=None))
 
 # Retrieve label data
-with open(labelfile, 'rb') as file:
+with open(trainlabel, 'rb') as file:
 	magic, size = struct.unpack(">II", file.read(8))
 	if magic != 2049:
 		raise ValueError('2049 was magic, not {}'.format(magic))

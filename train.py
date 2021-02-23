@@ -102,7 +102,7 @@ def SGD(n):
 
 		f += 1
 
-		# Should skip first layer (Interpretaion from equations, need to check)
+		# Should skip first layer (Interpretation from equations, need to check)
 		if f == 0:
 			break
 
