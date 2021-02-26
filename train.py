@@ -27,8 +27,10 @@ def QCF(a, ll, y, z):
 	
 	# Actual Error = (1/2) * [ Prediction - Actual ] ^ 2
 	for ind in range(len(ll)):
+		# DIAG: Trying this version of the cost function temporarily
 		# This version computes the actual statistical error
-		#ll[ind] = .5 * (l[ind] - y[ind])**2
+
+		#ll[ind] = .5 * (a[ind] - y[ind])**2
 
 		# error at ll = (a - y) * sigprime(z)
 		ll[ind] = (a[ind] - y[ind]) * sigPrime(z[ind])

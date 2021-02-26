@@ -12,6 +12,8 @@ netShape = [28*28, 30, 10]
 bSize = 60000
 # Learning rate
 eta = .1
+# Number of iterations to test
+tst = int(bSize/60)
 
 
 
@@ -29,7 +31,7 @@ def compute():
 	shuffle(nc)
 
 	# List of epochs for SGD
-	ep = 0
+	status = 0
 
 	# DIAG: nc
 	for i in range(bSize):
@@ -38,7 +40,7 @@ def compute():
 		# DIAG: x = i
 		x = nc[i]
 		# Increment Epoch count by one
-		ep += 1
+		status += 1
 
 		# Set first layer to input
 		ne.l[0] = load.nd[x]
@@ -50,8 +52,8 @@ def compute():
 		# Pass network and answer to backprop
 		train.backProp(ne, load.genLabel(x))
 
-		if ep % (bSize/10)  == 0:
-			print('epoch {}'.format(ep))
+		if status % (bSize/10)  == 0:
+			print('status {}'.format(status))
 			print(ne.l[-1])
 			load.plot(list(ne.l[0]))
 			print(load.genLabel(x))
@@ -70,10 +72,40 @@ def test(z):
 	print('answer is: {}'.format(np.argmax(load.genLabel(z))))
 
 
-compute()
+for i in range(2):
+	compute()
+	print(f'epoch {i} complete')
+
+# TESTING BLOCK - REMOVE BELOW TO NEXT TESTING BLOCK
+nc = []
+
+# Generate a list, counting to the length of the training array, and shuffle it for SGD
+for i in range(len(load.nd)):
+	nc.append(i)
+shuffle(nc)
+
+# Used for counting in test
+ct = 0
+
+for i in range(tst):
+	if bSize < tst:
+		print('breaking test count')
+		break
+	z = nc[i]
+
+	ne.l[0] = load.nd[z]
+	guess = np.argmax(train.feed(ne, False))
+	answer = np.argmax(load.genLabel(z))
+
+	if answer == guess:
+		ct += 1
+
+print('correct %: {}, eta: {}'.format(ct/tst, eta))
+# TESTING BLOCK
 
 while True:
 	z = int(input('int: '))
+
 	test(z)
 
 
