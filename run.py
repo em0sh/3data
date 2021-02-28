@@ -11,7 +11,8 @@ netShape = [28*28, 30, 10]
 # Batch size for descent
 bSize = 60000
 # Learning rate
-eta = .1
+eta = .0825
+
 # Number of iterations to test
 tst = int(bSize/60)
 
@@ -76,13 +77,14 @@ for i in range(2):
 	compute()
 	print(f'epoch {i} complete')
 
-# TESTING BLOCK - REMOVE BELOW TO NEXT TESTING BLOCK
-nc = []
+# TESTING BLOCK
+#-----------------------------------------------------------------------------------
+nct = []
 
 # Generate a list, counting to the length of the training array, and shuffle it for SGD
-for i in range(len(load.nd)):
-	nc.append(i)
-shuffle(nc)
+for i in range(len(load.ndt)):
+	nct.append(i)
+shuffle(nct)
 
 # Used for counting in test
 ct = 0
@@ -91,18 +93,21 @@ for i in range(tst):
 	if bSize < tst:
 		print('breaking test count')
 		break
-	z = nc[i]
+	z = nct[i]
 
-	ne.l[0] = load.nd[z]
+	ne.l[0] = load.ndt[z]
 	guess = np.argmax(train.feed(ne, False))
-	answer = np.argmax(load.genLabel(z))
+	answer = np.argmax(load.genLabelt(z))
 
 	if answer == guess:
 		ct += 1
 
 print('correct %: {}, eta: {}'.format(ct/tst, eta))
-# TESTING BLOCK
 
+
+
+#-----------------------------------------------------------------------------------
+# TESTING BLOCK
 while True:
 	z = int(input('int: '))
 
